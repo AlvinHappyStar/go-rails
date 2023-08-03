@@ -1,0 +1,11 @@
+FROM golang:1.18-alpine as builder
+
+RUN apk add --no-cache gcc musl-dev linux-headers git
+
+WORKDIR /go-ethereum
+
+# Get dependencies - will also be cached if we won't change go.mod/go.sum
+COPY go.mod .
+COPY go.sum .
+
+RUN go mod download
